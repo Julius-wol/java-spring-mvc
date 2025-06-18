@@ -3,11 +3,13 @@ package vn.hoidanit.laptopshop.controller;
 import vn.hoidanit.laptopshop.domain.User;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -44,10 +46,30 @@ public class UserController {
 
     @RequestMapping("/admin/user/{id}")
     public String getUserDetailPage(Model model, @PathVariable long id) {
-        System.out.println("check path id = " + id);
-
+        User user = this.userService.getUserById(id);
+        model.addAttribute("user", user);
         model.addAttribute("id", id);
         return "admin/user/show";
+    }
+
+    @RequestMapping("/admin/user/update/{id}")
+    public String getUserUpdatePage(Model model, @PathVariable long id) {
+        User currentUser = this.userService.getUserById(id);
+        model.addAttribute("newUser", currentUser);
+        return "admin/user/update";
+    }
+
+    @PostMapping(value = "/admin/user/update")
+    public String postUpdateUser(Model model, @ModelAttribute("newUser") User khanhhuyen) {
+        User currentUser = this.userService.getUserById(khanhhuyen.getId());
+        if (currentUser != null) {
+            khanhhuyen.setAddress(currentUser.getAddress());
+            khanhhuyen.setFullName(currentUser.getFullName());
+            khanhhuyen.setPassword(currentUser.getPassword());
+            this.userService.handleSaveUser(khanhhuyen);
+        }
+
+        return "redirect:/admin/user";
     }
 
     @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
