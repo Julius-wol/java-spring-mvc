@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,12 +64,25 @@ public class UserController {
     public String postUpdateUser(Model model, @ModelAttribute("newUser") User khanhhuyen) {
         User currentUser = this.userService.getUserById(khanhhuyen.getId());
         if (currentUser != null) {
-            khanhhuyen.setAddress(currentUser.getAddress());
-            khanhhuyen.setFullName(currentUser.getFullName());
-            khanhhuyen.setPassword(currentUser.getPassword());
-            this.userService.handleSaveUser(khanhhuyen);
+            currentUser.setAddress(khanhhuyen.getAddress());
+            currentUser.setFullName(khanhhuyen.getFullName());
+            currentUser.setPassword(khanhhuyen.getPassword());
+            this.userService.handleSaveUser(currentUser);
         }
 
+        return "redirect:/admin/user";
+    }
+
+    @GetMapping("/admin/user/delete/{id}")
+    public String getUserDeletePage(Model model, @PathVariable long id) {
+        model.addAttribute("id", id);
+        model.addAttribute("newUser", new User());
+        return "admin/user/delete";
+    }
+
+    @PostMapping(value = "/admin/user/delete")
+    public String postDeleteUser(Model model, @ModelAttribute("newUser") User khanhhuyen) {
+        this.userService.deleteById(khanhhuyen.getId());
         return "redirect:/admin/user";
     }
 

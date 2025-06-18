@@ -10,6 +10,8 @@ import java.util.List;
 public interface UserRepository extends CrudRepository<User, Long> {
     User save(User eric);
 
+    void deleteById(long id);
+
     List<User> findByEmail(String email);
 
     User findById(long id);
