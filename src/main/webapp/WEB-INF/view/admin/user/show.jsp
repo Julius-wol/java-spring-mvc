@@ -8,7 +8,7 @@
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Create Users</title>
+                <title>User Details ${id}</title>
                 <!-- Latest compiled and minified CSS -->
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -25,7 +25,7 @@
                 <div class="container mt-5">
                     <div class="d-flex justify-content-between">
                         <div class="mr-auto p-2">
-                            <h2>Table Users</h2>
+                            <h2>User Details</h2>
                         </div>
                         <div class="p-2">
                             <a href="/admin/user/create"><button type="button" class="btn btn-primary">Create new
@@ -35,33 +35,18 @@
                     </div>
                     <hr />
 
-                    <table class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Full Name</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="user" items="${users1}">
+                    <div class="card" style="width: 60%;">
+                        <div class="card-header">
+                            User Information ${id}
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">ID: </li>
+                            <li class="list-group-item">Email: -</li>
+                            <li class="list-group-item">Full Name: - </li>
+                            <li class="list-group-item">Address: -</li>
+                        </ul>
+                    </div>
 
-                                <tr>
-                                    <th>${user.id}</th>
-                                    <td>${user.email}</td>
-                                    <td>${user.fullName}</td>
-                                    <td>
-                                        <a href="/admin/user/${user.id}" class="btn btn-success">View</a>
-                                        <button class="btn btn-warning  mx-2">Update</button>
-                                        <button class="btn btn-danger">Delete</button>
-                                    </td>
-                                </tr>
-
-                            </c:forEach>
-
-                        </tbody>
-                    </table>
                 </div>
             </body>
 
